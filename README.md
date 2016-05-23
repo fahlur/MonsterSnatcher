@@ -1,4 +1,4 @@
-!(http://i.imgur.com/zWNODtw.png)
+![MonsterSnatcher](http://i.imgur.com/zWNODtw.png)
 
 ##Permissions:
 **ms.reload**  
