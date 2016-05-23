@@ -1,0 +1,30 @@
+settings:
+  opOverride: false
+mobs:
+  BAT: 0.1
+  CHICKEN: 0.1
+  COW: 0.1
+  MUSHROOM_COW: 0.08
+  PIG: 0.1
+  RABBIT: 0.1
+  SHEEP: 0.1
+  SQUID: 0.1
+  VILLAGER: 0.04
+  CAVE_SPIDER: 0
+  SPIDER: 0
+  PIG_ZOMBIE: 0
+  BLAZE: 0
+  CREEPER: 0
+  ENDERMITE: 0
+  GHAST: 0
+  GUARDIAN: 0
+  MAGMA_CUBE: 0
+  SHULKER: 0
+  SILVERFISH: 0
+  SKELETON: 0
+  SLIME: 0
+  WITCH: 0
+  ZOMBIE: 0
+  HORSE: 0.08
+  OCELOT: 0.1
+  WOLF: 0.1
