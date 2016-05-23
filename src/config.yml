@@ -9,6 +9,9 @@ mobs:
   RABBIT: 0.1
   SHEEP: 0.1
   SQUID: 0.1
+  HORSE: 0.08
+  OCELOT: 0.1
+  WOLF: 0.1
   VILLAGER: 0.04
   CAVE_SPIDER: 0
   SPIDER: 0
@@ -25,6 +28,3 @@ mobs:
   SLIME: 0
   WITCH: 0
   ZOMBIE: 0
-  HORSE: 0.08
-  OCELOT: 0.1
-  WOLF: 0.1
