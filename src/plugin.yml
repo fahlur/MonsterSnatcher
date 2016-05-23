@@ -7,3 +7,8 @@ commands:
     usage: /<command>
     aliases: [ms]
     description: Main command returns version
+permissions:
+   ms.reload:
+    description: Ability to use monsterSnatchers reload
+   ms.catchable:
+    description: Ability to use capture mobs
