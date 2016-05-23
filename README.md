@@ -1,5 +1,2 @@
-![alt tag](http://i.imgur.com/zWNODtw.png)
-# MonsterSnatcher
-Capture minecraft mobs with eggs
+![Monster Snatcher](http://i.imgur.com/zWNODtw.png)
 
-Plugin currently in development
