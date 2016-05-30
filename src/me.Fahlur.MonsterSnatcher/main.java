@@ -22,16 +22,14 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Logger;
-
 
 public class main extends JavaPlugin implements Listener {
 
 	main plugin;
 	Permission permission;
-	private Logger log;
 	PluginDescriptionFile pdfFile = this.getDescription();
 	final FileConfiguration config = this.getConfig();
+
 	
 	@Override
 	public void onEnable(){
@@ -47,31 +45,24 @@ public class main extends JavaPlugin implements Listener {
 	
 public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		if (!(sender instanceof Player)){
-			log.warning("Commands for this plugin may only be executed by a player!");
-			return true;
-		}
-		
-		Player player = (Player) sender;
-		
-		if (!permission.playerHas(player, "pe.exchangepets")) {
-	      player.sendMessage(ChatColor.RED + "Sorry, you don't have permission to use this command.");
-	      return true;
-	    }
-		
-		
+
 		if (cmd.getName().equalsIgnoreCase("monstersnatcher")){
-			
 			if (args.length == 1 && args[0].equalsIgnoreCase("reload")){
+				if ((sender instanceof Player)){
+					if (!permission.playerHas((Player) sender, "ms.reload")) {
+					      sender.sendMessage(ChatColor.RED + "Sorry, you don't have permission to use this command.");
+					      return true;
+					}
+				}
 				reloadConfig();
 				saveConfig();
-				player.sendMessage(ChatColor.RED + "[MonsterSnatcher] " + ChatColor.GRAY + "Reloaded Configuration File!");
-				Bukkit.getLogger().info("[MonsterSnatcher]: " + player.getName() + " performed a configuration reload");
+				sender.sendMessage(ChatColor.RED + "[MonsterSnatcher]" + ChatColor.GRAY + ": " + ChatColor.GRAY + "Reloaded Configuration File!");
+				Bukkit.getLogger().info("[MonsterSnatcher]: " + sender.getName() + " performed a configuration reload");
 				return true;
 			}
-			player.sendMessage(ChatColor.GREEN + "MonsterSnatcher version: " + ChatColor.GOLD + pdfFile.getVersion());
-			
-			
+			sender.sendMessage(ChatColor.GREEN + "MonsterSnatcher");
+			sender.sendMessage(ChatColor.AQUA + "Version: " + ChatColor.GOLD + pdfFile.getVersion());
+			sender.sendMessage(ChatColor.AQUA + "Author(s): " + ChatColor.GOLD + pdfFile.getAuthors());
 		}
 		
 		
@@ -117,7 +108,7 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
 		Location loc = entity.getLocation();
 		
 		
-		if (player.hasPermission("monstersnatcher.catchable")){
+		if (player.hasPermission("ms.catchable")){
 		
 			if (!(config.contains("mobs."+entity.getType()))){
 				player.sendMessage(ChatColor.RED + "[MonsterSnatcher] " + ChatColor.GRAY + "The mob you are trying to catch is uncatchable!");
