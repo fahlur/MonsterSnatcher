@@ -1,12 +1,13 @@
 name: MonsterSnatcher
 main: me.Fahlur.MonsterSnatcher.main
-version: 1.0
+version: 1.0.0
+author: Fahlur
 description: Mob Capture Plugin
 commands:
-   MonsterSnatcher:
-    usage: /<command>
-    aliases: [ms]
-    description: Main command returns version
+  monstersnatcher:
+      description: Main command returns version
+      aliases: [ms]
+      usage: /<command>
 permissions:
    ms.reload:
     description: Ability to use monsterSnatchers reload
