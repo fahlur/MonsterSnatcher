@@ -1,6 +1,6 @@
 name: MonsterSnatcher
 main: me.Fahlur.MonsterSnatcher.main
-version: 1.0.0
+version: 1.0.5
 author: Fahlur
 description: Mob Capture Plugin
 commands:
@@ -13,3 +13,5 @@ permissions:
     description: Ability to use monsterSnatchers reload
    ms.catchable:
     description: Ability to use capture mobs
+   ms.spawnerchanger:
+    description: Ability to change spawners with spawn eggs
