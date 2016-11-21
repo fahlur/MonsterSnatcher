@@ -1,9 +1,10 @@
 package me.Fahlur.MonsterSnatcher;
 
-import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,6 +18,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.SpawnEgg;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -29,7 +31,6 @@ public class main extends JavaPlugin implements Listener {
 	Permission permission;
 	PluginDescriptionFile pdfFile = this.getDescription();
 	final FileConfiguration config = this.getConfig();
-
 	
 	@Override
 	public void onEnable(){
@@ -72,9 +73,18 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
 }
 	
 	
+
+	@EventHandler
+	public void spawnEvent(PlayerInteractEvent event)
+	{
+	  if ((event.getClickedBlock() != null) && (event.getItem() != null) && (event.getClickedBlock().getType() == Material.MOB_SPAWNER) && (event.getItem().getType() == Material.MONSTER_EGG)) {
+		  if (!(permission.playerHas(event.getPlayer(), "ms.spawnerchanger"))){
+			  event.setCancelled(true);  
+		  }
+	  }
+	}
 	
-	@SuppressWarnings("deprecation")
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler(priority=EventPriority.HIGHEST) 
 	public void eggThrowEvent(EntityDamageEvent event){
 		
 		EntityDamageByEntityEvent damageEvent = null;
@@ -95,48 +105,57 @@ public boolean onCommand(CommandSender sender, Command cmd, String label, String
 		}
 		
 		egg = (Egg)damageEvent.getDamager();
-		player = (Player) egg.getShooter();
 		
-		if (entity instanceof Tameable && (((Tameable)entity).isTamed())){
-			player.sendMessage(ChatColor.RED + "[MonsterSnatcher] " + ChatColor.GRAY + "You are unable to capture tamed mobs!");
+		if (event.isCancelled()){
 			return;
 		}
 		
 		if (!(egg.getShooter() instanceof Player)){
 			return;
 		}
+		player = (Player) egg.getShooter();
 		Location loc = entity.getLocation();
 		
+	
+		//if (player.hasPermission("ms.catchable")){
 		
-		if (player.hasPermission("ms.catchable")){
-		
+			if (entity instanceof Tameable && (((Tameable)entity).isTamed()) && ((Tameable) entity).getOwner() != player){
+				player.sendMessage(ChatColor.RED + "[MonsterSnatcher] " + ChatColor.GRAY + "You are unable to capture other players tamed mobs!");
+				return;
+			}
+			
 			if (!(config.contains("mobs."+entity.getType()))){
 				player.sendMessage(ChatColor.RED + "[MonsterSnatcher] " + ChatColor.GRAY + "The mob you are trying to catch is uncatchable!");
 				return;
 			}
 			double livingEntity = config.getDouble("mobs."+entity.getType());
 			boolean rand = randomChance(livingEntity, player, entity);
-		
+			
 			if (livingEntity == 0 && !isOp(player)){
 				player.sendMessage(ChatColor.RED + "[MonsterSnatcher] " + ChatColor.GRAY + "The mob you are trying to catch is uncatchable!");
 				return;
 			}
 			
 			if (rand && !isOp(player)){
-				entity.remove();
+			
 				SpawnEgg spawnEgg = new SpawnEgg();
 				spawnEgg.setSpawnedType(entity.getType());
 				loc.getWorld().dropItemNaturally(loc, spawnEgg.toItemStack(1));
+				entity.remove();
+				
+
+				
 			}
 			
 			if (isOp(player)){
-				entity.remove();
+				
 				SpawnEgg spawnEgg = new SpawnEgg();
 				spawnEgg.setSpawnedType(entity.getType());
 				loc.getWorld().dropItemNaturally(loc, spawnEgg.toItemStack(1));
+				entity.remove();
 			}
 			
-		}
+		//}
 		
 		
 		
